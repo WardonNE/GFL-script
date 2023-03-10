@@ -367,7 +367,7 @@ class GFScript
         }
         $normalImage = $code . '/' . basename(realpath($normalImageResourcePath));
 
-        $brokenImageResourcePath = $this->config->imageResourcePath . DIRECTORY_SEPARATOR . $code . DIRECTORY_SEPARATOR . "pic_{$code}_HD.png";
+        $brokenImageResourcePath = $this->config->imageResourcePath . DIRECTORY_SEPARATOR . $code . DIRECTORY_SEPARATOR . "pic_{$code}_D_HD.png";
         if(!is_file($brokenImageResourcePath)) {
             throw new Exception($originalCode . ' broken image not exists');
         }
