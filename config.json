@@ -17,6 +17,9 @@
     "spineInput": "input\\assets\\characters",
     "spineResourcePath": "GFL-resource\\character\\spine",
     "characterDataJson": "GFL-resource\\character\\data.json",
+    "skipGunCode": [
+        "xm3mod"
+    ],
     "specialGunCode": {
         "PPQ": "ppq_7604",
         "Sterling": "sterling_7303",

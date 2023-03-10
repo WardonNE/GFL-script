@@ -20,6 +20,7 @@ declare(strict_types=1);
  * @property-read string $spineInput
  * @property-read string $spineResourcePath
  * @property-read string $characterDataJson
+ * @property-read string[] $skipGunCode
  * @property-read array $specialGunCode
  */
 class ScriptConfig {
@@ -430,6 +431,7 @@ class GFScript
         $characters = [];
         foreach($this->guns as $gun) {
             if(!isset($gun['code'])) continue;
+            if(in_array(strtolower($gun['code']), $this->config->skipGunCode)) continue;
             try {
                 $code = $gun['code'];
                 $character = [
