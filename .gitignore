@@ -1,0 +1,6 @@
+GFL-resource
+extract
+source
+*.json
+resource_downloader
+!config.json
