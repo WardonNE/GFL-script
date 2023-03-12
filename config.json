@@ -13,6 +13,7 @@
     "archivedAvatarJson": "archived_avatars.json",
     "imageInput": "input\\assets\\resources\\dabao\\pics\\guns",
     "imageResourcePath": "GFL-resource\\character\\images",
+    "imageMerger": "GFL-image-merger.exe",
     "archivedImageJson": "archived_images.json",
     "spineInput": "input\\assets\\characters",
     "spineResourcePath": "GFL-resource\\character\\spine",

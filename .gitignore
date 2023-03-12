@@ -4,3 +4,5 @@ source
 *.json
 resource_downloader
 !config.json
+input
+*.backup

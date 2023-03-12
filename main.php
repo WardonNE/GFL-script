@@ -16,6 +16,7 @@ declare(strict_types=1);
  * @property-read string $archivedAvatarJson
  * @property-read string $imageInput
  * @property-read string $imageResourcePath
+ * @property-read string $imageMerger
  * @property-read string $archivedImageJson
  * @property-read string $spineInput
  * @property-read string $spineResourcePath
@@ -268,35 +269,14 @@ class GFScript
                 $imagePath = $this->config->imageInput . DIRECTORY_SEPARATOR . $diritem . DIRECTORY_SEPARATOR . $image;
                 $alphaPath = $this->config->imageInput . DIRECTORY_SEPARATOR . $diritem . DIRECTORY_SEPARATOR . str_replace('.png', '_Alpha.png', $image);
                 if(!is_file($alphaPath)) continue;
-                $alphaImage = imagecreatefrompng($alphaPath);
-                $alphaImage = imagescale($alphaImage, 2048, 2048, IMG_BICUBIC_FIXED);
-                $paintingImage = imagecreatefrompng($imagePath);
-                $paintingImage = imagescale($paintingImage, 2048, 2048, IMG_BICUBIC_FIXED);
-                $canvas = imagecreatetruecolor(2048, 2048);
-                $transparent = imagecolorallocatealpha($canvas, 0, 0, 0, 127);
-                imagefill($canvas, 0, 0, $transparent);
-                for($x = 0; $x < 2048; $x++) {
-                    for($y = 0; $y < 2048; $y++) {
-                        $alphaColor = imagecolorat($alphaImage, $x, $y);
-                        $alphaRgba = imagecolorsforindex($alphaImage, $alphaColor);
-                        $alpha = $alphaRgba['alpha'];
-
-                        $paintingColor = imagecolorat($paintingImage, $x, $y);
-                        $paintingRgba = imagecolorsforindex($paintingImage, $paintingColor);
-
-                        $color = imagecolorallocatealpha($canvas, $paintingRgba['red'], $paintingRgba['green'], $paintingRgba['blue'], $alpha);
-                        imagesetpixel($canvas, $x, $y, $color);
-                    }
+                $outputPath = $this->config->imageResourcePath . DIRECTORY_SEPARATOR . $diritem . DIRECTORY_SEPARATOR . $image;
+                $command = $this->config->imageMerger . ' "' . $alphaPath . '" "' . $imagePath . '" "' . $outputPath . '"';
+                $outputs = [];
+                exec($command, $outputs);
+                if(($outputs[0] ?? '') !== 'ok') {
+                    $this->output($diritem . ' merge image failed');
+                    continue;
                 }
-                $outputDirpath = $this->config->imageResourcePath . DIRECTORY_SEPARATOR . $diritem;
-                if(!is_dir($outputDirpath)) {
-                    mkdir($outputDirpath, 0777, true);
-                }
-                imagesavealpha($canvas, true);
-                imagepng($canvas, $outputDirpath . DIRECTORY_SEPARATOR . $image, 9);
-                imagedestroy($canvas);
-                imagedestroy($alphaImage);
-                imagedestroy($paintingImage);
             }
             $this->archivedImages[] = $diritem;
         }
