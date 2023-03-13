@@ -47,7 +47,6 @@ func main() {
 			canvas.SetRGBA(x, y, color.RGBA{R: uint8(fr), G: uint8(fg), B: uint8(fb), A: uint8(ba)})
 		}
 	}
-
 	os.MkdirAll(filepath.Dir(os.Args[3]), 0777)
 
 	oimg, err := os.OpenFile(os.Args[3], os.O_CREATE|os.O_RDWR|os.O_TRUNC, 0777)
@@ -56,7 +55,7 @@ func main() {
 	}
 	defer oimg.Close()
 
-	encoder := png.Encoder{
+	encoder := &png.Encoder{
 		CompressionLevel: png.BestCompression,
 	}
 	if err := encoder.Encode(oimg, canvas); err != nil {
